@@ -1335,6 +1335,12 @@ sub _md5_resp {
 sub _login {
         my ($self) = @_;
 
+        if ($self->{CONFIG}->{NOAUTH}) {
+            $self->{LOGGEDIN} = 1;
+            $self->{CONFIG}->{ON_CONNECT}->($self) if ($self->{CONFIG}->{ON_CONNECT});
+            return 1;
+        }
+
         #Auth challenge
         my %challenge;
 
